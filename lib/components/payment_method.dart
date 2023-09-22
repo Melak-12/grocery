@@ -52,13 +52,17 @@ class _PaymentState extends State<Payment> {
                 ),
                 padding: const EdgeInsets.all(30),
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(12),
+                  Card(
+                    color: Colors.grey[100],
+                    child: ListTile(
+                      title: Image.asset(
+                        "lib/images/abay.jpeg",
+                      ),
+                      subtitle: Text(
+                        "Abay bank",
+                        style: TextStyle(color: Colors.grey[400]),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(22),
-                    child: Image.asset("lib/images/abay.jpeg"),
                   ),
                   Container(
                     decoration: BoxDecoration(
