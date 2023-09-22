@@ -10,7 +10,7 @@ import 'package:grocery/pages/introduction.dart';
 //   );
 //   runApp(const MyApp());
 // }
-
+//tobe fetched
 void main() {
   runApp(const MyApp());
 }
