@@ -1,16 +1,18 @@
 // import 'dart:js_interop';
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:grocery/pages/cart_page.dart' show CartPage;
-import 'package:grocery/pages/introduction.dart' show Intro;
 import 'package:grocery/pages/item_detail.dart' show ItemDetail;
 import 'package:grocery/pages/my_cart.dart' show MyCart;
+import 'package:grocery/pages/profile.dart';
+// import 'package:grocery/pages/proifle_page.dart';
 import 'package:grocery/pages/sidemenu.dart' show SideMenu;
 // import 'package:grocery/pages/introduction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:intl/intl.dart';
 
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -54,6 +56,13 @@ class _HomePageState extends State<HomePage> {
     // print("size of item is $size.new");
   }
 
+  Future<String> proImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString("profile_path");
+
+    return imagePath ?? "No image !";
+  }
+
   String getGreeting() {
     final now = DateTime.now();
     final currentTime = TimeOfDay.fromDateTime(now);
@@ -76,13 +85,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         // automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 40, 78, 85),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () => Navigator.pop(context),
-        // ),
+        foregroundColor: Colors.green[200],
         title: Text(
           'Grocery  ',
-          style: GoogleFonts.fahkwang(textStyle: const TextStyle(fontSize: 15)),
+          style: GoogleFonts.fahkwang(
+              textStyle: TextStyle(
+                  fontSize: 15, color: Colors.green[100], letterSpacing: 3)),
         ),
         actions: [
           IconButton(
@@ -96,7 +104,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             },
-            // icon: const Icon(Icons.shopping_cart),
             icon: badges.Badge(
               badgeStyle: const badges.BadgeStyle(
                 badgeColor: Colors.red,
@@ -113,178 +120,239 @@ class _HomePageState extends State<HomePage> {
                       cartItemSize.toString(),
                       style: const TextStyle(color: Colors.white),
                     )
-                  : Text("0"),
-              child: Icon(Icons.shopping_cart),
+                  : const Text("0"),
+              child: Icon(
+                Icons.shopping_cart,
+                color: Colors.green[200],
+              ),
             ),
           ),
           const SizedBox(
             width: 12,
           ),
-          const Icon(Icons.account_circle),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return const Profile();
+                },
+              ));
+            },
+            child: Hero(
+              tag: "profile image",
+              child: Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: ClipOval(
+                  clipBehavior: Clip.hardEdge,
+                  child: FutureBuilder<String>(
+                    future: proImage(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        final imagePath = snapshot.data!;
+                        return Image.file(
+                          File(imagePath),
+                          fit: BoxFit.scaleDown,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
           const SizedBox(
             width: 12,
           ),
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 2),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  getGreeting(),
-                  style: GoogleFonts.sacramento(
-                    textStyle: const TextStyle(
-                      color: Color.fromARGB(255, 134, 163, 154),
-                      fontSize: 20,
+      body: Container(
+        // decoration: const BoxDecoration(
+        //     gradient: LinearGradient(colors: [
+        //   Color.fromARGB(255, 188, 190, 188),
+        //   Color.fromARGB(255, 247, 255, 245),
+        //   Color.fromARGB(255, 202, 202, 202),
+        //   Color.fromARGB(255, 255, 255, 255),
+        // ])),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 2),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    getGreeting(),
+                    style: GoogleFonts.sacramento(
+                      textStyle: const TextStyle(
+                        color: Color.fromARGB(255, 134, 163, 154),
+                        fontSize: 20,
+                      ),
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 11.0,
-                left: 11,
-              ),
-              child: Text("Let's order fresh items for you !",
-                  style: GoogleFonts.fahkwang(
-                    textStyle: const TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 122, 139, 155),
-                    ),
-                  )),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(1.0),
-              child: Divider(),
-            ),
-            Expanded(
-              child: items.isEmpty
-                  ? const Text("no data")
-                  : GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 11.0,
+                  left: 11,
+                ),
+                child: Text("Let's order fresh items for you !",
+                    style: GoogleFonts.fahkwang(
+                      textStyle: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 122, 139, 155),
                       ),
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final itemId = items[index];
-                        final itemName =
-                            prefs.getString("$itemId\$_name") ?? "no name";
-                        final itemPrice = prefs.getInt("$itemId\$_price") ?? 0;
-                        final itemDisc =
-                            prefs.getString("$itemId\$_disc") ?? "no disc";
+                    )),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(1.0),
+                child: Divider(),
+              ),
+              Expanded(
+                child: size < 1
+                    ? const Text("no data")
+                    : GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: size,
+                        itemBuilder: (context, index) {
+                          final itemId = items[index];
+                          final itemName =
+                              prefs.getString("$itemId\$_name") ?? "no name";
+                          final itemPrice =
+                              prefs.getInt("$itemId\$_price") ?? 0;
+                          final itemDisc =
+                              prefs.getString("$itemId\$_disc") ?? "no disc";
 
-                        return TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ItemDetail(
-                                  itemName: itemName,
-                                  itemId: itemId,
-                                  itemPrice: itemPrice,
-                                  itemDisc: itemDisc,
+                          final imagePath =
+                              prefs.getString("$itemId\$_image_path");
+                          // final profilePath =
+                          //     prefs.getString("$itemId\$_profile_path");
+
+                          return TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemDetail(
+                                    itemName: itemName,
+                                    itemId: itemId,
+                                    itemPrice: itemPrice,
+                                    itemDisc: itemDisc,
+                                    itemImage: imagePath!,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 4,
-                            color: Colors.white,
-                            shadowColor: Color.fromARGB(255, 202, 199, 199),
-                            margin: const EdgeInsets.all(6),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
+                              );
+                            },
+                            child: Card(
+                              elevation: 4,
+                              color: Colors.white,
+                              shadowColor:
+                                  const Color.fromARGB(255, 202, 199, 199),
+                              margin: const EdgeInsets.all(6),
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(9),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Image.network(
-                                    'https://media-cdn.tripadvisor.com/media/photo-s/06/ca/7d/be/bar-35-food-drinks.jpg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        itemName,
-                                        style: GoogleFonts.fahkwang(
-                                          textStyle: const TextStyle(
-                                            fontSize: 15,
-                                            color: Color.fromARGB(
-                                                255, 131, 185, 186),
+                              child: Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    if (imagePath != null)
+                                      Image.file(
+                                        File(imagePath),
+                                        fit: BoxFit.cover,
+                                        height: 96,
+                                        width: 80,
+                                      )
+                                    else
+                                      Image.network(
+                                        'https://media-cdn.tripadvisor.com/media/photo-s/06/ca/7d/be/bar-35-food-drinks.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          itemName,
+                                          style: GoogleFonts.fahkwang(
+                                            textStyle: const TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(
+                                                  255, 131, 185, 186),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      const Spacer(
-                                        flex: 1,
-                                      ),
-                                      Text(
-                                        '$itemPrice\$',
-                                        style: GoogleFonts.zillaSlab(
-                                          textStyle: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 240, 124, 61),
-                                              fontSize: 10),
+                                        const Spacer(
+                                          flex: 1,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const Spacer(
-                                    flex: 1,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        liked = !liked;
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(Icons.favorite,
-                                            size: 18,
-                                            color: liked
-                                                ? Color.fromARGB(255, 255, 0, 0)
-                                                : Colors.grey.shade500),
-                                        const SizedBox(
-                                          width: 22,
+                                        Text(
+                                          '$itemPrice\$',
+                                          style: GoogleFonts.zillaSlab(
+                                            textStyle: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 240, 124, 61),
+                                                fontSize: 10),
+                                          ),
                                         ),
-                                        const Icon(
-                                          Icons.share,
-                                          size: 18,
-                                        )
                                       ],
                                     ),
-                                  ),
-                                ],
+                                    const Spacer(
+                                      flex: 1,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          liked = !liked;
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.favorite,
+                                              size: 18,
+                                              color: liked
+                                                  ? const Color.fromARGB(
+                                                      255, 255, 0, 0)
+                                                  : Colors.grey.shade500),
+                                          const SizedBox(
+                                            width: 22,
+                                          ),
+                                          const Icon(
+                                            Icons.share,
+                                            size: 18,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-            ),
-          ],
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.small(

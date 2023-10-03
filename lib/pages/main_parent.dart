@@ -39,11 +39,12 @@ class _MainParentState extends State<MainParent> {
           onItemSelected: (index) => setState(() {
             currentIndex = index;
             pageController.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.ease);
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.ease);
           }),
           items: [
             BottomNavyBarItem(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               title: Text(
                 'Home',
                 style: GoogleFonts.fahkwang(
@@ -54,9 +55,10 @@ class _MainParentState extends State<MainParent> {
             BottomNavyBarItem(
                 icon: Icon(Icons.favorite),
                 title: Text(
-                  'Favorites',
+                  'My Items',
                   style: GoogleFonts.fahkwang(
-                      textStyle: TextStyle(fontSize: 11, letterSpacing: 1)),
+                    textStyle: TextStyle(fontSize: 11, letterSpacing: 1),
+                  ),
                 ),
                 activeColor: Colors.purpleAccent),
             BottomNavyBarItem(
@@ -64,7 +66,8 @@ class _MainParentState extends State<MainParent> {
                 title: Text(
                   'Settings',
                   style: GoogleFonts.fahkwang(
-                      textStyle: TextStyle(fontSize: 11, letterSpacing: 1)),
+                    textStyle: TextStyle(fontSize: 11, letterSpacing: 1),
+                  ),
                 ),
                 activeColor: const Color.fromARGB(255, 131, 145, 156)),
           ],

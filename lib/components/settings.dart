@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:grocery/pages/main_parent.dart';
+// import 'package:grocery/pages/main_parent.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -174,57 +174,12 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                 ],
-                // itemCount: 3,
-                // itemBuilder: (context, index) {
-                //   return Padding(
-                //     padding: const EdgeInsets.all(12),
-                //     child: Container(
-                //       decoration: BoxDecoration(
-                //         color: Colors.grey[200],
-                //         borderRadius: BorderRadius.circular(12),
-                //       ),
-                //       child: ListTile(
-                //         onLongPress: () {
-                //           Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => const MainParent()),
-                //           );
-                //         },
-                //         title: Text("Email"),
-                //         leading: Icon(Icons.man),
-                //         subtitle: Text(" \$"),
-                //         trailing: TextButton(
-                //           child: const Icon(
-                //             Icons.edit,
-                //             color: Color.fromARGB(255, 255, 89, 12),
-                //           ),
-                //           onPressed: () {
-                //             final snackBar = SnackBar(
-                //               backgroundColor: Color.fromARGB(255, 11, 56, 64),
-                //               content: const Text('Removing!'),
-                //               action: SnackBarAction(
-                //                 label: 'Undo',
-                //                 onPressed: () {
-                //                   setState(() {});
-                //                 },
-                //               ),
-                //               elevation: 10,
-                //             );
-                //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                //             // if (!shoudIRemoveItem) {
-                //           },
-                //         ),
-                //       ),
-                //     ),
-                //   );
-                // },
               ),
             ),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 255, 86, 86),
+                color: const Color.fromARGB(255, 255, 86, 86),
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.all(12),

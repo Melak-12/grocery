@@ -38,8 +38,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(Icons.add),
             title: Text(
               "Add Items",
@@ -48,7 +48,15 @@ class _SideMenuState extends State<SideMenu> {
             focusColor: const Color.fromARGB(255, 59, 122, 136),
             onTap: () {
               Navigator.pop(context);
-              showAddItemBottomSheet(context);
+              // showAddItemBottomSheet(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ItemForm();
+                  },
+                ),
+              );
             },
           ),
           const SizedBox(
@@ -56,8 +64,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(
               Icons.favorite,
               color: Colors.red,
@@ -76,8 +84,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(Icons.rate_review),
             title: Text(
               "Highly rated",
@@ -91,8 +99,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(Icons.shop),
             title: Text(
               "My items",
@@ -106,8 +114,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(Icons.dark_mode),
             title: Text(
               "dark mode",
@@ -127,8 +135,8 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             hoverColor: const Color.fromARGB(255, 24, 68, 78),
-            iconColor: Colors.white,
-            textColor: Colors.white,
+            iconColor: Colors.green[200],
+            textColor: Colors.grey[200],
             leading: const Icon(Icons.settings),
             title: Text(
               "Settings",

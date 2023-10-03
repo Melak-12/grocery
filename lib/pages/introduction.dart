@@ -37,16 +37,10 @@ class Intro extends StatelessWidget {
 
             const Spacer(),
             GestureDetector(
-              // onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
-              //   builder: (context) {
-              //     //Todo Widget
-              //     return const HomePage();
-              //   },
-              // )),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MainParent()),
+                  MaterialPageRoute(builder: (context) => const MainParent()),
                 );
               },
               child: Container(

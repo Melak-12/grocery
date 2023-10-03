@@ -7,7 +7,7 @@ import 'package:grocery/pages/introduction.dart';
 //   WidgetsFlutterBinding.ensureInitialized();
 //   await Firebase.initializeApp(
 //     options: DefaultFirebaseOptions.currentPlatform,
-//   );
+//   );r
 //   runApp(const MyApp());
 // }
 
@@ -16,7 +16,7 @@ void main() {
 }
 
 // final ThemeData customTheme = ThemeData(primaryColor: Colors.amber);
-// fdsdfrr
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/components/payment_method.dart';
@@ -110,6 +113,8 @@ class _MyCartState extends State<MyCart> {
                         final itemName =
                             prefs.getString("$itemId\$_name") ?? "no name";
                         final itemPrice = prefs.getInt("$itemId\$_price") ?? 0;
+                        final imagePath =
+                            prefs.getString("$itemId\$_image_path");
 
                         return Padding(
                           padding: const EdgeInsets.all(12),
@@ -127,10 +132,15 @@ class _MyCartState extends State<MyCart> {
                                 );
                               },
                               title: Text(itemName),
-                              leading: Image.network(
-                                'https://media-cdn.tripadvisor.com/media/photo-s/06/ca/7d/be/bar-35-food-drinks.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                              leading: imagePath != null
+                                  ? Image.file(
+                                      File(imagePath),
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      'https://media-cdn.tripadvisor.com/media/photo-s/06/ca/7d/be/bar-35-food-drinks.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
                               subtitle: Text(itemPrice.toString() + " \$"),
                               trailing: TextButton(
                                 child: const Icon(
