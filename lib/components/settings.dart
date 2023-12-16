@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:grocery/pages/home_page.dart';
+import 'package:grocery/pages/main_parent.dart';
+import 'package:grocery/providers/main_parent_model.dart';
+import 'package:provider/provider.dart';
 // import 'package:grocery/pages/main_parent.dart';
 
 class Settings extends StatefulWidget {
@@ -30,7 +34,16 @@ class _SettingsState extends State<Settings> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                  create: (context) => MainModel(),
+                  child: const MainParent(),
+                ),
+              ),
+            );
           },
         ),
       ),

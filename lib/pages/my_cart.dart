@@ -4,8 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/components/payment_method.dart';
+import 'package:grocery/pages/home_page.dart';
 // import 'package:grocery/pages/home_page.dart';
 import 'package:grocery/pages/main_parent.dart';
+import 'package:grocery/providers/main_parent_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyCart extends StatefulWidget {
@@ -66,8 +69,6 @@ class _MyCartState extends State<MyCart> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 40, 78, 85),
-        // backgroundColor: Colors.transparent,
-        // elevation: 0,
         title: Text(
           "My cart",
           textAlign: TextAlign.center,
@@ -128,7 +129,12 @@ class _MyCartState extends State<MyCart> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const MainParent()),
+                                    builder: (context) =>
+                                        ChangeNotifierProvider(
+                                      create: (context) => MainModel(),
+                                      child: const MainParent(),
+                                    ),
+                                  ),
                                 );
                               },
                               title: Text(itemName),

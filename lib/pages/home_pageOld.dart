@@ -8,9 +8,11 @@ import 'package:grocery/pages/cart_page.dart' show CartPage;
 import 'package:grocery/pages/item_detail.dart' show ItemDetail;
 import 'package:grocery/pages/my_cart.dart' show MyCart;
 import 'package:grocery/pages/profile.dart';
+// import 'package:grocery/pages/proifle_page.dart';
 import 'package:grocery/pages/sidemenu.dart' show SideMenu;
 import 'package:grocery/providers/main_parent_model.dart';
 import 'package:provider/provider.dart';
+// import 'package:grocery/pages/introduction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -28,7 +30,9 @@ class _HomePageState extends State<HomePage> {
   int cartItemSize = 0;
   List<String> items = [];
   List<String> cartItems = [];
-
+  String name = "";
+  int price = 0;
+  String disc = "";
   late SharedPreferences prefs;
   late SharedPreferences prefs2;
   bool liked = false;
@@ -51,11 +55,34 @@ class _HomePageState extends State<HomePage> {
         cartItemSize = cartItems.length;
       },
     );
+    // print("size of item is $size.new");
+  }
+
+  Future<String> proImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final imagePath = prefs.getString("profile_path");
+
+    return imagePath ?? "No image !";
+  }
+
+  String getGreeting() {
+    final now = DateTime.now();
+    final currentTime = TimeOfDay.fromDateTime(now);
+    final hour = currentTime.hour;
+
+    if (hour < 12) {
+      // return "Good morning!it's ${currentTime.format(context)}";
+      return "Good morning!";
+    } else if (hour < 17) {
+      // return "Good afternoon ! it's ${currentTime.format(context)}";
+      return "Good afternoon!";
+    } else {
+      return "Good evening!";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final mainModel = Provider.of<MainModel>(context);
     return Scaffold(
       appBar: AppBar(
         // automaticallyImplyLeading: false,
@@ -118,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(11.0),
                 child: FutureBuilder<String>(
-                  future: mainModel.proImage(),
+                  future: proImage(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
@@ -156,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Text(
-                    mainModel.getGreeting(),
+                    getGreeting(),
                     style: GoogleFonts.sacramento(
                       textStyle: const TextStyle(
                         color: Color.fromARGB(255, 134, 163, 154),

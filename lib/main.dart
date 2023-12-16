@@ -1,7 +1,9 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery/providers/main_parent_model.dart';
 // import 'package:grocery/firebase_options.dart';
 import 'package:grocery/pages/introduction.dart';
+import 'package:provider/provider.dart';
 
 // Future<void> main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +14,14 @@ import 'package:grocery/pages/introduction.dart';
 // }
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) {
+        MainModel;
+      },
+      child: const MyApp(),
+    ),
+  );
 }
 
 // final ThemeData customTheme = ThemeData(primaryColor: Colors.amber);
@@ -29,6 +38,10 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.green,
       ),
       color: Colors.black,
+      // home: ChangeNotifierProvider(
+      //   create: (context) => MainModel(),
+      //   child: const Intro(),
+      // ),
       home: const Intro(),
     );
   }

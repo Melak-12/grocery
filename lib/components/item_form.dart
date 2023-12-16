@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/pages/home_page.dart';
+import 'package:grocery/providers/main_parent_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -235,7 +237,11 @@ class _ItemFormState extends State<ItemForm> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomePage()),
+                              builder: (context) => ChangeNotifierProvider(
+                                create: (context) => MainModel(),
+                                child: const HomePage(),
+                              ),
+                            ),
                           );
                         }
                       },
