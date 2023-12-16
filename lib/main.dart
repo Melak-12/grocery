@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 //   );r
 //   runApp(const MyApp());
 // }
-
+//tobe fetched
 void main() {
   runApp(
     ChangeNotifierProvider(
